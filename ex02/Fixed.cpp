@@ -5,34 +5,29 @@
 // Default constructor
 Fixed::Fixed(): _number(0)
 {
-    std::cout << "Default constructor called" << std::endl;
 }
 
 // Integer constructor
 Fixed::Fixed(const int number)
 {
-    std::cout << "Int constructor called" << std::endl;
     _number = number << _fractionalBits;
 }
 
 // Float constructor
 Fixed::Fixed(const float number)
 {
-    std::cout << "Float constructor called" << std::endl;
     _number = roundf(number * (1 << _fractionalBits));
 }
 
 // Copy constructor
 Fixed::Fixed(const Fixed &other)
 {
-    std::cout << "Copy constructor called" << std::endl;
     *this = other;
 }
 
 // Assignment operator
 Fixed &Fixed::operator=(const Fixed &other)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
     if (this != &other)
         _number = other.getRawBits();
     return (*this);
@@ -41,7 +36,6 @@ Fixed &Fixed::operator=(const Fixed &other)
 // Destructor
 Fixed::~Fixed()
 {
-    std::cout << "Destructor called" << std::endl;
 }
 
 // Get raw bits
@@ -100,20 +94,20 @@ bool Fixed::operator!=(const Fixed& other) const
 {
     return(this->_number != other._number);
 }
-Fixed Fixed::operator+(const Fixed &other)
+Fixed Fixed::operator+(const Fixed &other) const
 {
     Fixed result;
     result.setRawBits(this->_number + other._number);
     return(result);
 }
-Fixed Fixed::operator-(const Fixed &other)
+Fixed Fixed::operator-(const Fixed &other) const
 {
     Fixed result;
     result.setRawBits(this->_number - other._number);
     return(result);
 }
 
-Fixed Fixed::operator*(const Fixed &other)
+Fixed Fixed::operator*(const Fixed &other) const
 {
     Fixed result;
     long tmp = (long)this->_number * (long)other._number;
@@ -121,7 +115,7 @@ Fixed Fixed::operator*(const Fixed &other)
     result.setRawBits((int)tmp);
     return(result);
 }
-Fixed Fixed::operator/(const Fixed &other)
+Fixed Fixed::operator/(const Fixed &other) const
 {
     Fixed result;
     long tmp = ((long)this->_number << _fractionalBits) / other._number;
