@@ -2,30 +2,25 @@
 #include <iostream>
 #include <cmath>
 
-// Default constructor
 Fixed::Fixed(): _number(0)
 {
 }
 
-// Integer constructor
 Fixed::Fixed(const int number)
 {
     _number = number << _fractionalBits;
 }
 
-// Float constructor
 Fixed::Fixed(const float number)
 {
     _number = roundf(number * (1 << _fractionalBits));
 }
 
-// Copy constructor
 Fixed::Fixed(const Fixed &other)
 {
     *this = other;
 }
 
-// Assignment operator
 Fixed &Fixed::operator=(const Fixed &other)
 {
     if (this != &other)
@@ -33,36 +28,30 @@ Fixed &Fixed::operator=(const Fixed &other)
     return (*this);
 }
 
-// Destructor
 Fixed::~Fixed()
 {
 }
 
-// Get raw bits
 int Fixed::getRawBits(void) const
 {
     return (_number);
 }
 
-// Set raw bits
 void Fixed::setRawBits(int const raw)
 {
     _number = raw;
 }
 
-// Convert to float
 float Fixed::toFloat(void) const
 {
     return (static_cast<float>(_number) / (1 << _fractionalBits));
 }
 
-// Convert to int
 int Fixed::toInt(void) const
 {
     return (_number >> _fractionalBits);
 }
 
-// Insertion operator overload
 std::ostream &operator<<(std::ostream &out, const Fixed &fixed)
 {
     out << fixed.toFloat();
