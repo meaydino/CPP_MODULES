@@ -4,7 +4,6 @@
 // int main()
 // {
 // 	int size = 100;
-
 // 	Animal *animal[size];
 // 	for(int i = 0; i < (size / 2); i++)
 // 		animal[i] = new Dog();
@@ -16,9 +15,6 @@
 // 		delete animal[i];
 // 	return 0;
 // }
-// #include "Dog.hpp"
-// #include "Cat.hpp"
-// #include "Animal.hpp"
 
 int main()
 {
@@ -46,6 +42,17 @@ int main()
         for(int i = 0; i < size; i++)
             delete animals[i];
     }
+	std::cout << "\n=== Real Deep Copy Proof ===\n";
+
+	Dog dog1;
+	dog1.setIdea(0, "I love bones");
+
+	Dog dog2 = dog1;
+
+	dog2.setIdea(0, "I love cats");
+
+	std::cout << "Dog1 idea: " << dog1.getIdea(0) << std::endl;
+	std::cout << "Dog2 idea: " << dog2.getIdea(0) << std::endl;
 
     std::cout << "\n=== Deep Copy Test ===" << std::endl;
     {

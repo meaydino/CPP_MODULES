@@ -35,3 +35,4 @@ void Dog::makeSound() const
 {
 	std::cout << "Woof!....Woof!" << std::endl;
 }
+

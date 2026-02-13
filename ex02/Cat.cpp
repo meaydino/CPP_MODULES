@@ -41,3 +41,12 @@ void Cat::makeSound() const
 {
 	std::cout << "Meow!....Meow!" << std::endl;
 }
+
+void Cat::setIdea(int index, const std::string& idea)
+{
+	brain->setIdea(index, idea);
+}
+std::string Cat::getIdea(int index) const
+{
+	return(brain->getIdea(index));
+}

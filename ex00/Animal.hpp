@@ -1,5 +1,5 @@
-#ifndef ANİMAL_HPP
-#define ANİMAL_HPP
+#ifndef ANIMAL_HPP
+#define ANIMAL_HPP
 
 #include<iostream>
 class Animal
