@@ -58,12 +58,12 @@ int main()
     {
         Dog basic;
         {
-            Dog tmp = basic;  // Copy constructor test
+            Dog tmp = basic;
         }
 
         Cat cat1;
         Cat cat2;
-        cat2 = cat1;  // Assignment operator test
+        cat2 = cat1;
     }
 
     return 0;

@@ -5,7 +5,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRC = main.cpp Animal.cpp Dog.cpp Cat.cpp Brain.cpp
 OBJ = $(SRC:.cpp=.o)
-INC = ClapTrap.hpp
+INC = Animal.hpp Dog.hpp Cat.hpp Brain.hpp
 
 all: $(NAME)
 
