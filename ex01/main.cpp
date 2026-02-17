@@ -1,21 +1,6 @@
 #include"Dog.hpp"
 #include"Cat.hpp"
 #include"Animal.hpp"
-// int main()
-// {
-// 	int size = 100;
-// 	Animal *animal[size];
-// 	for(int i = 0; i < (size / 2); i++)
-// 		animal[i] = new Dog();
-// 	for(int i = (size / 2); i < size; i++)
-// 		animal[i] = new Cat();
-// 	for(int i = 0; i < size; i++)
-// 		animal[i]->makeSound();
-// 	for(int i = 0; i < size; i++)
-// 		delete animal[i];
-// 	return 0;
-// }
-
 int main()
 {
     std::cout << "=== Basic Test ===" << std::endl;
@@ -42,7 +27,7 @@ int main()
         for(int i = 0; i < size; i++)
             delete animals[i];
     }
-	std::cout << "\n=== Real Deep Copy Proof ===\n";
+	std::cout << "\n=== Real Deep Copy ===\n";
 
 	Dog dog1;
 	dog1.setIdea(0, "I love bones");
@@ -58,12 +43,12 @@ int main()
     {
         Dog basic;
         {
-            Dog tmp = basic;  // Copy constructor test
+            Dog tmp = basic;
         }
 
         Cat cat1;
         Cat cat2;
-        cat2 = cat1;  // Assignment operator test
+        cat2 = cat1;
     }
 
     return 0;
