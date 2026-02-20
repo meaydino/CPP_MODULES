@@ -2,7 +2,6 @@
 
 int main()
 {
-    // TEST 1: Geçersiz grade (1000)
     std::cout << "=== TEST 1: Grade 1000 ===" << std::endl;
     try
     {
@@ -14,19 +13,17 @@ int main()
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
-    // TEST 2: Geçerli grade (50)
     std::cout << "\n=== TEST 2: Grade 50 ===" << std::endl;
     try
     {
         Bureaucrat veli("veli", 50);
-        std::cout << veli << std::endl;  // Bu çalışır!
+        std::cout << veli << std::endl;
     }
     catch(std::exception &e)
     {
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
-    // TEST 3: Grade 0 (çok yüksek)
     std::cout << "\n=== TEST 3: Grade 0 ===" << std::endl;
     try
     {

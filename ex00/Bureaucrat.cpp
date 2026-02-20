@@ -1,8 +1,7 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat() : _name("EMPTY"), _grade(0)
+Bureaucrat::Bureaucrat() : _name("EMPTY"), _grade(150)
 {
-	std::cout << "Bureaucrat default constructor called" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const std::string &name, int grade) : _name(name)
@@ -17,7 +16,6 @@ Bureaucrat::Bureaucrat(const std::string &name, int grade) : _name(name)
 Bureaucrat::Bureaucrat(const Bureaucrat &other) : _name(other._name),
 	_grade(other._grade)
 {
-	std::cout << "Bureaucrat copy constructor called" << std::endl;
 }
 
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
