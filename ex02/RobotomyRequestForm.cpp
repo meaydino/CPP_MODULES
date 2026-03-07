@@ -28,7 +28,7 @@ void RobotomyRequestForm::execute(Bureaucrat const &executor) const
 		throw GradeTooLowException();
 	std::cout << "* DRILLING NOISES * Bzzzzz..." << std::endl;
 	if(time(NULL) % 2 == 0)
-		std::cout << _target << " has bees robotomized successfully!" << std::endl;
+		std::cout << _target << " has been robotomized successfully!" << std::endl;
 	else
 		std::cout << "Robotomy failed on " << _target << "!" << std::endl;
 
