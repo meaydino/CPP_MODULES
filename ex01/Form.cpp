@@ -5,8 +5,8 @@ Form::Form() : _name("EMPTY"), _beSigned(false), _grade(150), _execute(150)
 {
 }
 
-Form::Form(const std::string &name, bool beSigned, int grade,
-	int execute) : _name(name), _beSigned(beSigned), _grade(grade),
+Form::Form(const std::string &name, int grade,
+	int execute) : _name(name), _beSigned(false), _grade(grade),
 	_execute(execute)
 {
 	if (grade < 1 || _execute < 1)

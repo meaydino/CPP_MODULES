@@ -9,7 +9,7 @@ int main()
     std::cout << "=== TEST 1: Shrubbery ===" << std::endl;
     try
     {
-        Bureaucrat boss("Boss", 1);
+        Bureaucrat boss("Boss", 150);
         ShrubberyCreationForm shrub("home");
         boss.signForm(shrub);
         boss.executeForm(shrub);

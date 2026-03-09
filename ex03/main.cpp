@@ -1,19 +1,22 @@
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
 #include "Intern.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 
 int main()
 {
-    Intern intern;
-    AForm* form;
-
-    std::cout << "=== TEST 1: Shrubbery Creation ===" << std::endl;
+    std::cout << "=== TEST 1: Intern Shrubbery ===" << std::endl;
     try
     {
-        form = intern.makeForm("shrubbery creation", "home");
+        Intern intern;
+        Bureaucrat boss("Boss", 1);
+        AForm* form = intern.makeForm("shrubbery creation", "home");
         if (form)
         {
-            std::cout << *form << std::endl;
+            boss.signForm(*form);
+            boss.executeForm(*form);
             delete form;
         }
     }
@@ -22,13 +25,16 @@ int main()
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
-    std::cout << "\n=== TEST 2: Robotomy Request ===" << std::endl;
+    std::cout << "\n=== TEST 2: Intern Robotomy ===" << std::endl;
     try
     {
-        form = intern.makeForm("robotomy request", "Bender");
+        Intern intern;
+        Bureaucrat boss("Boss", 150);
+        AForm* form = intern.makeForm("robotomy request", "Bender");
         if (form)
         {
-            std::cout << *form << std::endl;
+            boss.signForm(*form);
+            boss.executeForm(*form);
             delete form;
         }
     }
@@ -37,13 +43,16 @@ int main()
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
-    std::cout << "\n=== TEST 3: Presidential Pardon ===" << std::endl;
+    std::cout << "\n=== TEST 3: Intern Presidential ===" << std::endl;
     try
     {
-        form = intern.makeForm("presidential pardon", "Criminal");
+        Intern intern;
+        Bureaucrat president("President", 150);
+        AForm* form = intern.makeForm("presidential pardon", "Criminal");
         if (form)
         {
-            std::cout << *form << std::endl;
+            president.signForm(*form);
+            president.executeForm(*form);
             delete form;
         }
     }
@@ -55,7 +64,8 @@ int main()
     std::cout << "\n=== TEST 4: Invalid Form ===" << std::endl;
     try
     {
-        form = intern.makeForm("invalid form", "target");
+        Intern intern;
+        AForm* form = intern.makeForm("invalid form", "target");
         if (form)
             delete form;
     }
@@ -64,15 +74,16 @@ int main()
         std::cout << "Exception: " << e.what() << std::endl;
     }
 
-    std::cout << "\n=== TEST 5: Full Workflow ===" << std::endl;
+    std::cout << "\n=== TEST 5: Grade Too Low ===" << std::endl;
     try
     {
-        Bureaucrat boss("Boss", 150);
-        form = intern.makeForm("robotomy request", "Alice");
+        Intern intern;
+        Bureaucrat lowGrade("Intern", 150);
+        AForm* form = intern.makeForm("presidential pardon", "Someone");
         if (form)
         {
-            boss.signForm(*form);
-            boss.executeForm(*form);
+            lowGrade.signForm(*form);
+            lowGrade.executeForm(*form);
             delete form;
         }
     }

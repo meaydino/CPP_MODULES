@@ -14,7 +14,7 @@ class Form
 		const int _execute;
 	public:
 		Form();
-		Form(const std::string &name, bool beSigned, int grade, int execute);
+		Form(const std::string &name, int grade, int execute);
 		Form(const Form &other);
 		Form &operator=(const Form &other);
 		const std::string &getName() const;
