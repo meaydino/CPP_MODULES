@@ -3,9 +3,9 @@ NAME = span
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRC = main.cpp
+SRC = main.cpp Span.cpp
 OBJ = $(SRC:.cpp=.o)
-INC = span.hpp
+INC = Span.hpp
 
 all: $(NAME)
 
