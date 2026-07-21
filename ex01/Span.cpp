@@ -1,5 +1,11 @@
 #include"Span.hpp"
 #include <exception>
+#include <stdexcept>
+#include <algorithm>
+#include <climits>
+#include <iostream>
+
+
 
 
 Span::Span(unsigned int N): _N(N)
@@ -24,17 +30,21 @@ void Span::addNumber(int number)
 {
     if(_numbers.size() >= _N)
     {
-        throw std::runtime_error("Not added");
+        std::cout << "Span is full" << std::endl;
+        return;
     }
     _numbers.push_back(number);
-    
+
 }
 
 int Span::shortestSpan()
 {
     if(_numbers.size() < 2)
-        throw std::runtime_error("Not enough numbers");
-    
+    {
+        std::cout << "Not enough numbers" << std::endl;
+        return(1);
+    }
+
     std::vector<int> temp = _numbers;
     std::sort(temp.begin(), temp.end());
 
@@ -52,7 +62,10 @@ int Span::shortestSpan()
 int Span::longestSpan()
 {
     if (_numbers.size() < 2)
-        throw std::runtime_error("Not enough numbers");
+    {
+        std::cout << "Not enough numbers" << std::endl;
+        return(1);
+    }
 
     int min = *std::min_element(_numbers.begin(), _numbers.end());
     int max = *std::max_element(_numbers.begin(), _numbers.end());
