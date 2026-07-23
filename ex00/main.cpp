@@ -10,9 +10,9 @@ int main(int ac, char **av)
     }
 
     BitcoinExchange btc;
-    btc.loadDatabase(av[1]);
+    btc.loadDatabase("data.csv");
     btc.processInput(av[1]);
-    return(1);
+    return(0);
 
     
 }
