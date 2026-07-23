@@ -19,6 +19,8 @@ class BitcoinExchange
 
         void loadDatabase(const std::string& filename);
         void processInput(const std::string& filename);
+        bool isValidValue(const std::string &value);
+        
 };
 
 #endif

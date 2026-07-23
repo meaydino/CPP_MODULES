@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <sstream>
 
 BitcoinExchange::BitcoinExchange(){}
 
@@ -69,5 +70,33 @@ void BitcoinExchange::processInput(const std::string& filename)
 
         date.erase(date.find_last_not_of(" ") + 1);
         valueStr.erase(0, valueStr.find_first_not_of(" "));
+
+        if(!isValidValue(valueStr))
+            continue;
     }
+}
+
+bool BitcoinExchange::isValidValue(const std::string &value)
+{
+    std::stringstream ss(value);
+
+    double number;
+
+    ss >> number;
+
+    if(ss.fail())
+        return(false);
+
+    if(number < 0)
+    {
+        std::cout << "Error: not a positive number." << std::endl;
+        return (false);
+    }
+    if(number > 1000)
+    {
+        std::cout << "Error: too large a number." << std::endl;
+        return (false);
+    }
+    return(true);
+
 }
