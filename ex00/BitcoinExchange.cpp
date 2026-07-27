@@ -1,5 +1,8 @@
 #include "BitcoinExchange.hpp"
 #include <sstream>
+#include <iostream>
+#include <cstdlib>
+
 
 BitcoinExchange::BitcoinExchange(){}
 
@@ -58,6 +61,8 @@ void BitcoinExchange::processInput(const std::string& filename)
 
     while(std::getline(file, line))
     {
+        if(line.empty())
+            continue;
         size_t pipe = line.find('|');
 
         if(pipe == std::string::npos)
@@ -67,7 +72,7 @@ void BitcoinExchange::processInput(const std::string& filename)
         }
         std::string date = line.substr(0, pipe);
         std::string valueStr = line.substr(pipe + 1);
-        
+
         date.erase(date.find_last_not_of(" ") + 1);
         valueStr.erase(0, valueStr.find_first_not_of(" "));
         if(!isValidDate(date))
