@@ -10,7 +10,7 @@ int main(int ac, char **av)
 		return(1);
 	}
 	PmergeMe sorter;
-	(!sorter.parseInput(ac, av))
+	if(!sorter.parseInput(ac, av))
 	{
 		std::cout << "Error" << std::endl;
 		return(1);

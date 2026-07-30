@@ -9,6 +9,7 @@ class PmergeMe
 	private:
 		std::vector<int> _vector;
 		std::deque<int> _deque;
+		std::vector<std::pair<int , int> > _pairs;
 
 	public:
 		PmergeMe();
@@ -17,6 +18,7 @@ class PmergeMe
 		~PmergeMe();
 		bool parseInput(int ac, char **av);
 		void sort();
+		void makePairs();
 
 };
 
