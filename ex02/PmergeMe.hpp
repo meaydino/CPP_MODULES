@@ -10,6 +10,9 @@ class PmergeMe
 		std::vector<int> _vector;
 		std::deque<int> _deque;
 		std::vector<std::pair<int , int> > _pairs;
+		std::vector<int> _mainChain;//büyük elemanlar
+		std::vector<int> _pend;//küçük elemanlar
+		std::vector<int> fordJohnson(std::vector<int> numbers);
 
 	public:
 		PmergeMe();
@@ -19,6 +22,7 @@ class PmergeMe
 		bool parseInput(int ac, char **av);
 		void sort();
 		void makePairs();
+		void splitPairs();
 
 };
 

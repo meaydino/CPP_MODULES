@@ -4,7 +4,12 @@
 #include <iostream>
 #include<algorithm>
 
-PmergeMe::PmergeMe(){}
+std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
+{
+	return std::vector<int>();
+}
+
+PmergeMe::PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe &other): _vector(other._vector) , _deque(other._deque), _pairs(other._pairs)
 {}
 
@@ -49,6 +54,7 @@ void PmergeMe::sort()
 		std::cout << _vector[i] << " ";
 	std::cout << std::endl;
 	makePairs();
+	splitPairs();
 }
 
 void PmergeMe::makePairs()
@@ -69,4 +75,28 @@ void PmergeMe::makePairs()
 	{
 		std::cout << "(" << _pairs[i].first << "," << _pairs[i].second << ")" << std::endl;
 	}
+}
+
+void PmergeMe::splitPairs()
+{
+	_mainChain.clear();
+	_pend.clear();
+
+	for(size_t i = 0;i < _pairs.size();i++)
+	{
+		_pend.push_back(_pairs[i].first);
+		_mainChain.push_back(_pairs[i].second);
+	}
+	std::cout << "\nMain Chain" << std::endl;
+	for(size_t i = 0;i < _mainChain.size();i++)
+		std::cout << _mainChain[i] << " ";
+
+	std::cout << std::endl;
+	std::cout << "\nPend:\n";
+
+    for (size_t i = 0; i < _pend.size(); i++)
+        std::cout << _pend[i] << " ";
+
+    std::cout << std::endl;
+
 }
