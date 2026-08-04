@@ -80,7 +80,7 @@ void PmergeMe::sort()
 	end = std::clock();
 	std::cout << "After: ";
 	printSequence(sortedVector);
-	std::cout << std::fixed << std::setprecision(6);
+	// std::cout << std::fixed << std::setprecision(6);
 	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << " elements with std::vector : " << " us" << std::endl;
 }
 
@@ -109,7 +109,7 @@ void PmergeMe::splitPairs()
 	_mainChain.clear();
 	_pend.clear();
 
-	for(size_t i = 0;i < _pairs.size();i++)
+	for(size_t i = 0;i < _pairs.size();++i)
 	{
 		_pend.push_back(_pairs[i]);
 		_mainChain.push_back(_pairs[i].big);
@@ -121,6 +121,14 @@ std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
 	std::vector<size_t> order;
 
 	std::vector<size_t> jacob;
+	if(size <= 1)
+	{
+		if (size == 1)
+			order.push_back(0);
+		return(order);
+	}
+
+	order.push_back(0);
 
 	jacob.push_back(0);
 	jacob.push_back(1);
