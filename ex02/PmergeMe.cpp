@@ -71,8 +71,12 @@ void PmergeMe::sort()
 	std::clock_t start;
 	std::clock_t end;
 
-	printSequence(sortedVector);
-	
+	std::cout << "Before: ";
+	printSequence(_vector);
+	start = std::clock();
+	sortedVector = fordJohnsonVector(_vector);
+	end = std::clock();
+
 }
 
 void PmergeMe::makePairs()
@@ -92,11 +96,7 @@ void PmergeMe::makePairs()
 		tmp.big = second;
 		_pairs.push_back(tmp);
 	}
-	std::cout << "Pairs:" << std::endl;
-	for(size_t i = 0;i < _pairs.size(); i++)
-	{
-		std::cout << "(" << _pairs[i].small << "," << _pairs[i].big << ")" << std::endl;
-	}
+
 }
 
 void PmergeMe::splitPairs()
@@ -137,23 +137,23 @@ std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
 	}
 	return(order);
 }
-void PmergeMe::insertPend(std::vector<int> &main, std::vector<Pair> &pend)
-{
-	std::vector<size_t> order;
-	order = generateJacobsthalOrder(pend.size());
-	for(size_t i = 0;i < order.size(); i++)
-	{
-		size_t index = order[i];
-		int value = pend[index].small;
-		int partner = pend[index].big;
-		std::vector<int>::iterator partnerPos;
-		partnerPos = std::find(main.begin(), main.end(), partner);
-		std::vector<int>::iterator pos;
-		pos = std::lower_bound(main.begin(), main.end(), value);
-		main.insert(pos, value);
-	}
-}
-std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
+// void PmergeMe::insertPend(std::vector<int> &main, std::vector<Pair> &pend)
+// {
+// 	std::vector<size_t> order;
+// 	order = generateJacobsthalOrder(pend.size());
+// 	for(size_t i = 0;i < order.size(); i++)
+// 	{
+// 		size_t index = order[i];
+// 		int value = pend[index].small;
+// 		int partner = pend[index].big;
+// 		std::vector<int>::iterator partnerPos;
+// 		partnerPos = std::find(main.begin(), main.end(), partner);
+// 		std::vector<int>::iterator pos;
+// 		pos = std::lower_bound(main.begin(), main.end(), value);
+// 		main.insert(pos, value);
+// 	}
+// }
+std::vector<int> PmergeMe::fordJohnsonVector(std::vector<int> numbers)
 {
 	if(numbers.size() <= 1)
 		return(numbers);
@@ -163,8 +163,6 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
 			std::swap(numbers[0], numbers[1]);
 		return(numbers);
 	}
-
-
 	std::vector<Pair> pairs;
 	int leftover = -1;
 	bool hasleftover= false;
@@ -188,7 +186,6 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
 		leftover = numbers.back();
 		hasleftover = true;
 	}
-
 	std::vector<int> big;
 	std::vector<Pair> small;
 
@@ -196,6 +193,38 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
 	{
 		small.push_back(pairs[i]);
 		big.push_back(pairs[i].big);
+	}
+	for(size_t i = 0;i < pairs.size();++i)
+	{
+		small.push_back(pairs[i]);
+		big.push_back(pairs[i].big);
+	}
+	std::vector<int> mainChain = fordJohnsonVector(big);
+	std::vector<size_t> order = generateJacobsthalOrder(small.size());
+	for(size_t i = 0;i < order.size();++i)
+	{
+		size_t index = order[i];
+		int value = small[index].small;
+		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
+		mainChain.insert(pos, value);
+	}
+	if(hasleftover)
+	{
+		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
+		mainChain.insert(pos,leftover);
+	}
+	return(mainChain);
+
+
+}
+std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
+{
+
+
+
+
+
+
 	}
 
 	std::vector<int> mainChain = fordJohnson(big);
