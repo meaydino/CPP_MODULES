@@ -4,6 +4,8 @@
 #include <iostream>
 #include<algorithm>
 #include <ctime>
+#include <iomanip>
+
 
 PmergeMe::PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe &other): _vector(other._vector) , _deque(other._deque), _pairs(other._pairs)
@@ -54,17 +56,17 @@ static void printSequence(const std::vector<int> &values)
 	}
 	std::cout << std::endl;
 }
-static void printSequence(const std::deque<int> &values)
-{
-	for(size_t i = 0;i < values.size(); ++i)
-	{
-		if(i)
-			std::cout<< " ";
-		std::cout << values[i];
+// static void printSequence(const std::deque<int> &values)
+// {
+// 	for(size_t i = 0;i < values.size(); ++i)
+// 	{
+// 		if(i)
+// 			std::cout<< " ";
+// 		std::cout << values[i];
 
-	}
-	std::cout << std::endl;
-}
+// 	}
+// 	std::cout << std::endl;
+// }
 void PmergeMe::sort()
 {
 	std::vector<int> sortedVector;
@@ -76,7 +78,10 @@ void PmergeMe::sort()
 	start = std::clock();
 	sortedVector = fordJohnsonVector(_vector);
 	end = std::clock();
-
+	std::cout << "After: ";
+	printSequence(sortedVector);
+	std::cout << std::fixed << std::setprecision(6);
+	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << " elements with std::vector : " << " us" << std::endl;
 }
 
 void PmergeMe::makePairs()
@@ -189,11 +194,6 @@ std::vector<int> PmergeMe::fordJohnsonVector(std::vector<int> numbers)
 	std::vector<int> big;
 	std::vector<Pair> small;
 
-	for(size_t i = 0;i < pairs.size();i++)
-	{
-		small.push_back(pairs[i]);
-		big.push_back(pairs[i].big);
-	}
 	for(size_t i = 0;i < pairs.size();++i)
 	{
 		small.push_back(pairs[i]);
@@ -217,37 +217,4 @@ std::vector<int> PmergeMe::fordJohnsonVector(std::vector<int> numbers)
 
 
 }
-std::vector<int> PmergeMe::fordJohnson(std::vector<int> numbers)
-{
 
-
-
-
-
-
-	}
-
-	std::vector<int> mainChain = fordJohnson(big);
-
-	std::vector<size_t> order;
-	order = generateJacobsthalOrder(small.size());
-
-
-	for(size_t i = 0;i < order.size();i++)
-	{
-		size_t index = order[i];
-		int value = small[index].small;
-		std::vector<int>::iterator pos;
-
-		pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
-		mainChain.insert(pos, value);
-	}
-	if(hasleftover)
-	{
-		std::vector<int>::iterator pos;
-		pos = std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
-		mainChain.insert(pos,leftover);
-	}
-	return(mainChain);
-
-}
