@@ -10,7 +10,6 @@ struct Pair
 {
 	int small;
 	int big;
-	size_t bigIndex;
 };
 
 class PmergeMe
@@ -23,17 +22,19 @@ class PmergeMe
 		std::vector<Pair> _pend;//küçük elemanlar
 
 	public:
-		std::vector<int> fordJohnson(std::vector<int> numbers);
 		PmergeMe();
 		PmergeMe(const PmergeMe &other);
 		PmergeMe &operator=(const PmergeMe &other);
 		~PmergeMe();
+
 		bool parseInput(int ac, char **av);
 		void sort();
 		void makePairs();
 		void splitPairs();
 		std::vector<size_t> generateJacobsthalOrder(size_t size);//pend elemlarının ekleme sırasını üretir
-		void insertPend(std::vector<int> &main, std::vector<Pair> &pend);
+		std::vector<int> fordJohnsonVector(std::vector<int> numbers);
+		std::deque<int> fordJohnsonVector(std::deque<int> numbers);
+
 
 };
 

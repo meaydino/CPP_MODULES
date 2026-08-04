@@ -3,7 +3,7 @@
 #include <limits>
 #include <iostream>
 #include<algorithm>
-
+#include <ctime>
 
 PmergeMe::PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe &other): _vector(other._vector) , _deque(other._deque), _pairs(other._pairs)
@@ -24,7 +24,9 @@ PmergeMe::~PmergeMe() {}
 
 bool PmergeMe::parseInput(int ac, char **av)
 {
-	for(int i = 1;i < ac;i++)
+	if(ac < 2)
+		return(false);
+	for(int i = 1;i < ac;++i)
 	{
 		std::stringstream ss(av[i]);
 		long value;
@@ -41,26 +43,36 @@ bool PmergeMe::parseInput(int ac, char **av)
 	}
 	return(true);
 }
+static void printSequence(const std::vector<int> &values)
+{
+	for(size_t i = 0;i < values.size(); ++i)
+	{
+		if(i)
+			std::cout<< " ";
+		std::cout << values[i];
 
+	}
+	std::cout << std::endl;
+}
+static void printSequence(const std::deque<int> &values)
+{
+	for(size_t i = 0;i < values.size(); ++i)
+	{
+		if(i)
+			std::cout<< " ";
+		std::cout << values[i];
+
+	}
+	std::cout << std::endl;
+}
 void PmergeMe::sort()
 {
-	std::cout << "Before: ";
+	std::vector<int> sortedVector;
+	std::clock_t start;
+	std::clock_t end;
 
-	for(size_t i = 0;i < _vector.size(); i++)
-		std::cout << _vector[i] << " ";
-	std::cout << std::endl;
-	makePairs();
-	splitPairs();
-	std::vector<int> result;
-
-    result = fordJohnson(_vector);
-
-
-    std::cout << "\nSorted: ";
-
-    for(size_t i = 0; i < result.size(); i++)
-        std::cout << result[i] << " ";
-
+	printSequence(sortedVector);
+	
 }
 
 void PmergeMe::makePairs()
@@ -114,12 +126,12 @@ std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
 		jacob.push_back(next);
 	}
 	size_t prev = 1;
-	for(size_t i = 2;i < jacob.size();i++)
+	for(size_t i = 2;i < jacob.size();++i)
 	{
 		size_t curr = jacob[i];
 		if(curr > size)
 			curr = size;
-		for(size_t j = curr; j > prev; j--)
+		for(size_t j = curr; j > prev; --j)
 			order.push_back(j - 1);
 		prev = jacob[i];
 	}
