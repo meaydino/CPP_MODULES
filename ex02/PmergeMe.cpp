@@ -70,8 +70,10 @@ static void printSequence(const std::vector<int> &values)
 void PmergeMe::sort()
 {
 	std::vector<int> sortedVector;
+	std::deque<int> sortedDeque;
 	std::clock_t start;
 	std::clock_t end;
+	double elapsed;
 
 	std::cout << "Before: ";
 	printSequence(_vector);
@@ -80,8 +82,15 @@ void PmergeMe::sort()
 	end = std::clock();
 	std::cout << "After: ";
 	printSequence(sortedVector);
-	// std::cout << std::fixed << std::setprecision(6);
-	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << " elements with std::vector : " << " us" << std::endl;
+	std::cout << std::fixed << std::setprecision(6);
+	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << elapsed << " us" << std::endl;
+	start = std::clock();
+	sortedDeque = fordJohnsonDeque(_deque);
+	end = std::clock();
+	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedDeque.size() << " elements with std::deque : " << elapsed << " us" << std::endl;
+
 }
 
 void PmergeMe::makePairs()
@@ -225,4 +234,63 @@ std::vector<int> PmergeMe::fordJohnsonVector(std::vector<int> numbers)
 
 
 }
+std::deque<int> PmergeMe::fordJohnsonDeque(std::deque<int> numbers)
+{
+	if(numbers.size() <= 1)
+		return(numbers);
+	if(numbers.size() == 2)
+	{
+		if(numbers[0] > numbers[1])
+			std::swap(numbers[0], numbers[1]);
+		return(numbers);
+	}
+	std::deque<Pair> pairs;
+	int leftover = -1;
+	bool hasleftover= false;
+
+	for(size_t i = 0;i + 1 < numbers.size(); i += 2)
+	{
+		int first = numbers[i];
+		int second = numbers[i + 1];
+
+		if(first > second)
+			std::swap(first, second);
+
+		Pair tmp;
+		tmp.small = first;
+		tmp.big = second;
+		pairs.push_back(tmp);
+
+	}
+	if(numbers.size() % 2 != 0)
+	{
+		leftover = numbers.back();
+		hasleftover = true;
+	}
+	std::deque<int> big;
+	std::deque<Pair> small;
+
+	for(size_t i = 0;i < pairs.size();++i)
+	{
+		small.push_back(pairs[i]);
+		big.push_back(pairs[i].big);
+	}
+	std::deque<int> mainChain = fordJohnsonDeque(big);
+	std::vector<size_t> order = generateJacobsthalOrder(small.size());
+	for(size_t i = 0;i < order.size();++i)
+	{
+		size_t index = order[i];
+		int value = small[index].small;
+		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
+		mainChain.insert(pos, value);
+	}
+	if(hasleftover)
+	{
+		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
+		mainChain.insert(pos,leftover);
+	}
+	return(mainChain);
+
+}
+
 

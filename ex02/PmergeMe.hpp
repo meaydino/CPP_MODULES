@@ -33,7 +33,7 @@ class PmergeMe
 		void splitPairs();
 		std::vector<size_t> generateJacobsthalOrder(size_t size);//pend elemlarının ekleme sırasını üretir
 		std::vector<int> fordJohnsonVector(std::vector<int> numbers);
-		std::deque<int> fordJohnsonVector(std::deque<int> numbers);
+		std::deque<int> fordJohnsonDeque(std::deque<int> numbers);
 
 
 };
