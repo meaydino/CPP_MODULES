@@ -47,26 +47,21 @@ bool PmergeMe::parseInput(int ac, char **av)
 }
 static void printSequence(const std::vector<int> &values)
 {
-	for(size_t i = 0;i < values.size(); ++i)
+	const size_t previewSize = 5;
+	size_t limit = values.size();
+	if(limit > previewSize)
+		limit = previewSize;
+	for(size_t i = 0;i < limit; ++i)
 	{
 		if(i)
 			std::cout<< " ";
 		std::cout << values[i];
 
 	}
+	if(values.size() > previewSize)
+		std::cout << " [...]";
 	std::cout << std::endl;
 }
-// static void printSequence(const std::deque<int> &values)
-// {
-// 	for(size_t i = 0;i < values.size(); ++i)
-// 	{
-// 		if(i)
-// 			std::cout<< " ";
-// 		std::cout << values[i];
-
-// 	}
-// 	std::cout << std::endl;
-// }
 void PmergeMe::sort()
 {
 	std::vector<int> sortedVector;
@@ -82,14 +77,14 @@ void PmergeMe::sort()
 	end = std::clock();
 	std::cout << "After: ";
 	printSequence(sortedVector);
-	std::cout << std::fixed << std::setprecision(6);
-	elapsed = static_cast<double>(end - start) * 1000.0 / CLOCKS_PER_SEC;
-	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << elapsed << " ms" << std::endl;
+	std::cout << std::fixed << std::setprecision(5);
+	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << elapsed << " us" << std::endl;
 	start = std::clock();
 	sortedDeque = fordJohnsonDeque(_deque);
 	end = std::clock();
-	elapsed = static_cast<double>(end - start) * 1000.0 / CLOCKS_PER_SEC;
-	std::cout << "Time to process a range of " << sortedDeque.size() << " elements with std::deque : " << elapsed << " ms" << std::endl;
+	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedDeque.size() << " elements with std::deque : " << elapsed << " us" << std::endl;
 
 }
 
