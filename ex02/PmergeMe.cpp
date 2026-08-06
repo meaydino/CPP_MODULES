@@ -83,13 +83,13 @@ void PmergeMe::sort()
 	std::cout << "After: ";
 	printSequence(sortedVector);
 	std::cout << std::fixed << std::setprecision(6);
-	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
-	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << elapsed << " us" << std::endl;
+	elapsed = static_cast<double>(end - start) * 1000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << elapsed << " ms" << std::endl;
 	start = std::clock();
 	sortedDeque = fordJohnsonDeque(_deque);
 	end = std::clock();
-	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
-	std::cout << "Time to process a range of " << sortedDeque.size() << " elements with std::deque : " << elapsed << " us" << std::endl;
+	elapsed = static_cast<double>(end - start) * 1000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedDeque.size() << " elements with std::deque : " << elapsed << " ms" << std::endl;
 
 }
 
