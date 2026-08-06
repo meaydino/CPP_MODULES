@@ -159,22 +159,7 @@ std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
 	}
 	return(order);
 }
-// void PmergeMe::insertPend(std::vector<int> &main, std::vector<Pair> &pend)
-// {
-// 	std::vector<size_t> order;
-// 	order = generateJacobsthalOrder(pend.size());
-// 	for(size_t i = 0;i < order.size(); i++)
-// 	{
-// 		size_t index = order[i];
-// 		int value = pend[index].small;
-// 		int partner = pend[index].big;
-// 		std::vector<int>::iterator partnerPos;
-// 		partnerPos = std::find(main.begin(), main.end(), partner);
-// 		std::vector<int>::iterator pos;
-// 		pos = std::lower_bound(main.begin(), main.end(), value);
-// 		main.insert(pos, value);
-// 	}
-// }
+
 std::vector<int> PmergeMe::fordJohnsonVector(std::vector<int> numbers)
 {
 	if(numbers.size() <= 1)
