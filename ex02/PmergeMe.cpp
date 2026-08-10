@@ -88,37 +88,6 @@ void PmergeMe::sort()
 
 }
 
-void PmergeMe::makePairs()
-{
-	_pairs.clear();
-	    // i + 1 < size() diyerek son elemanın eşi var mı kontrol ediyoruz
-	for(size_t i = 0; i + 1 < _vector.size(); i += 2)
-	{
-		int first = _vector[i];
-		int second = _vector[i + 1];
-
-		if(first > second)
-			std::swap(first, second);
-
-		Pair tmp;
-		tmp.small = first;
-		tmp.big = second;
-		_pairs.push_back(tmp);
-	}
-
-}
-
-void PmergeMe::splitPairs()
-{
-	_mainChain.clear();
-	_pend.clear();
-
-	for(size_t i = 0;i < _pairs.size();++i)
-	{
-		_pend.push_back(_pairs[i]);
-		_mainChain.push_back(_pairs[i].big);
-	}
-}
 std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
 {
 	//J(n)=J(n-1)+2*J(n-2)
