@@ -1,0 +1,245 @@
+#include "PmergeMe.hpp"
+#include <sstream>
+#include <limits>
+#include <iostream>
+#include<algorithm>
+#include <ctime>
+#include <iomanip>
+
+
+PmergeMe::PmergeMe() {}
+PmergeMe::PmergeMe(const PmergeMe &other): _vector(other._vector) , _deque(other._deque), _pairs(other._pairs)
+{}
+
+PmergeMe &PmergeMe::operator=(const PmergeMe &other)
+{
+	if(this != &other)
+	{
+		this->_vector = other._vector;
+		this->_deque = other._deque;
+		this->_pairs = other._pairs;
+	}
+	return(*this);
+}
+
+PmergeMe::~PmergeMe() {}
+
+bool PmergeMe::parseInput(int ac, char **av)
+{
+	if(ac < 2)
+		return(false);
+	for(int i = 1;i < ac;++i)
+	{
+		std::stringstream ss(av[i]);
+		long value;
+		ss >> value;
+		if(ss.fail() || !ss.eof())
+			return(false);
+		if(value < 0)
+			return(false);
+		if(value > std::numeric_limits<int>::max())
+			return(false);
+
+		_vector.push_back(static_cast<int>(value));
+		_deque.push_back(static_cast<int>(value));
+	}
+	return(true);
+}
+static void printSequence(const std::vector<int> &values)
+{
+	const size_t previewSize = 5;
+	size_t limit = values.size();
+	if(limit > previewSize)
+		limit = previewSize;
+	for(size_t i = 0;i < limit; ++i)
+	{
+		if(i)
+			std::cout<< " ";
+		std::cout << values[i];
+
+	}
+	if(values.size() > previewSize)
+		std::cout << " [...]";
+	std::cout << std::endl;
+}
+void PmergeMe::sort()
+{
+	std::vector<int> sortedVector;
+	std::deque<int> sortedDeque;
+	std::clock_t start;
+	std::clock_t end;
+	double elapsed;
+
+	std::cout << "Before: ";
+	printSequence(_vector);
+	start = std::clock();
+	sortedVector = fordJohnsonVector(_vector);
+	end = std::clock();
+	std::cout << "After: ";
+	printSequence(sortedVector);
+	std::cout << std::fixed << std::setprecision(5);
+	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedVector.size() << " elements with std::vector : " << elapsed << " us" << std::endl;
+	start = std::clock();
+	sortedDeque = fordJohnsonDeque(_deque);
+	end = std::clock();
+	elapsed = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC;
+	std::cout << "Time to process a range of " << sortedDeque.size() << " elements with std::deque : " << elapsed << " us" << std::endl;
+
+}
+
+std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
+{
+	//J(n)=J(n-1)+2*J(n-2)
+	std::vector<size_t> order;
+
+	std::vector<size_t> jacob;
+	if(size <= 1)
+	{
+		if (size == 1)
+			order.push_back(0);
+		return(order);
+	}
+
+	order.push_back(0);
+
+	jacob.push_back(0);
+	jacob.push_back(1);
+
+	while(jacob.back() < size)
+	{
+		size_t next = jacob[jacob.size() - 1] + 2 * jacob[jacob.size() -2];
+		jacob.push_back(next);
+	}
+	size_t prev = 1;
+	for(size_t i = 2;i < jacob.size();++i)
+	{
+		size_t curr = jacob[i];
+		if(curr > size)
+			curr = size;
+		for(size_t j = curr; j > prev; --j)
+			order.push_back(j - 1);
+		prev = jacob[i];
+	}
+	return(order);
+}
+
+std::vector<int> PmergeMe::fordJohnsonVector(std::vector<int> numbers)
+{
+	if(numbers.size() <= 1)
+		return(numbers);
+	if(numbers.size() == 2)
+	{
+		if(numbers[0] > numbers[1])
+			std::swap(numbers[0], numbers[1]);
+		return(numbers);
+	}
+	std::vector<Pair> pairs;
+	int leftover = -1;
+	bool hasleftover= false;
+
+	for(size_t i = 0;i + 1 < numbers.size(); i += 2)
+	{
+		int first = numbers[i];
+		int second = numbers[i + 1];
+
+		if(first > second)
+			std::swap(first, second);
+
+		Pair tmp;
+		tmp.small = first;
+		tmp.big = second;
+		pairs.push_back(tmp);
+
+	}
+	if(numbers.size() % 2 != 0)
+	{
+		leftover = numbers.back();
+		hasleftover = true;
+	}
+	std::vector<int> big;
+	std::vector<Pair> small;
+
+	for(size_t i = 0;i < pairs.size();++i)
+	{
+		small.push_back(pairs[i]);
+		big.push_back(pairs[i].big);
+	}
+	std::vector<int> mainChain = fordJohnsonVector(big);
+	std::vector<size_t> order = generateJacobsthalOrder(small.size());
+	for(size_t i = 0;i < order.size();++i)
+	{
+		size_t index = order[i];
+		int value = small[index].small;
+		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
+		mainChain.insert(pos, value);
+	}
+	if(hasleftover)
+	{
+		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
+		mainChain.insert(pos,leftover);
+	}
+	return(mainChain);
+
+
+}
+std::deque<int> PmergeMe::fordJohnsonDeque(std::deque<int> numbers)
+{
+	if(numbers.size() <= 1)
+		return(numbers);
+	if(numbers.size() == 2)
+	{
+		if(numbers[0] > numbers[1])
+			std::swap(numbers[0], numbers[1]);
+		return(numbers);
+	}
+	std::deque<Pair> pairs;
+	int leftover = -1;
+	bool hasleftover= false;
+
+	for(size_t i = 0;i + 1 < numbers.size(); i += 2)
+	{
+		int first = numbers[i];
+		int second = numbers[i + 1];
+
+		if(first > second)
+			std::swap(first, second);
+
+		Pair tmp;
+		tmp.small = first;
+		tmp.big = second;
+		pairs.push_back(tmp);
+
+	}
+	if(numbers.size() % 2 != 0)
+	{
+		leftover = numbers.back();
+		hasleftover = true;
+	}
+	std::deque<int> big;
+	std::deque<Pair> small;
+
+	for(size_t i = 0;i < pairs.size();++i)
+	{
+		small.push_back(pairs[i]);
+		big.push_back(pairs[i].big);
+	}
+	std::deque<int> mainChain = fordJohnsonDeque(big);
+	std::vector<size_t> order = generateJacobsthalOrder(small.size());
+	for(size_t i = 0;i < order.size();++i)
+	{
+		size_t index = order[i];
+		int value = small[index].small;
+		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), value);
+		mainChain.insert(pos, value);
+	}
+	if(hasleftover)
+	{
+		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
+		mainChain.insert(pos,leftover);
+	}
+	return(mainChain);
+
+}
+
+
